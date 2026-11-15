@@ -84,3 +84,18 @@ def test_guia_rapida_revisar_apertura(monkeypatch):
     guia.revisar_apertura()
     assert len(llamado) == 2
     assert "abrir_guia" not in ss
+
+
+def test_quitar_punto_cercano_reabre_o_recierra():
+    v = [[-1.6600, -78.6500], [-1.6600, -78.6491], [-1.6609, -78.6491], [-1.6609, -78.6500], [-1.66045, -78.64955]]
+    ss = {"mp_vertices": [list(p) for p in v], "mp_cerrado": True, "reg_poligono": mapa_parcela._poligono_de(v)}
+    # toque a ~5 m del punto 5 (el que estaba mal puesto): se borra y el contorno se vuelve a cerrar con 4 puntos
+    assert mapa_parcela.quitar_punto_cercano(ss, -1.66049, -78.64955) == 4
+    assert len(ss["mp_vertices"]) == 4 and ss["mp_cerrado"]
+    assert len(ss["reg_poligono"]["geometry"]["coordinates"][0]) == 5
+    # toque lejos de todo: no borra nada
+    assert mapa_parcela.quitar_punto_cercano(ss, -1.70, -78.70) is None and len(ss["mp_vertices"]) == 4
+    # con menos de 3 puntos el contorno se reabre
+    mapa_parcela.quitar_punto_cercano(ss, -1.6600, -78.6500)
+    mapa_parcela.quitar_punto_cercano(ss, -1.6600, -78.6491)
+    assert len(ss["mp_vertices"]) == 2 and not ss["mp_cerrado"] and ss["reg_poligono"] is None

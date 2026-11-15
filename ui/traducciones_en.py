@@ -630,3 +630,12 @@ EXACTAS.update({
 })
 PLANTILLAS.append((r"¿Seguro que quieres eliminar \*\*(?P<n>.+)\*\* \((?P<a>[\d.,]+) ha\)\?",
                    lambda m, p: f"Are you sure you want to delete **{m.group('n')}** ({m.group('a').replace('.', '').replace(',', '.')} ha)?"))
+EXACTAS.update({
+    "Quitar un punto: toca encima del punto que quieres borrar": "Remove a point: tap on the point you want to delete",
+    "Mientras esté activo, cada toque en el mapa borra el punto numerado más cercano en lugar de agregar uno nuevo.":
+        "While on, each tap on the map deletes the nearest numbered point instead of adding a new one.",
+    "Modo **quitar punto**: toca encima del punto que quieres borrar. Desactívalo para volver a agregar esquinas.":
+        "**Remove point** mode: tap on the point you want to delete. Turn it off to add corners again.",
+    "Toca encima del punto que quieres borrar": "Tap on the point you want to delete",
+    "Punto # borrado": "Point # deleted",
+})

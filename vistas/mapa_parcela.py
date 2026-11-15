@@ -141,7 +141,9 @@ def _mapa_base(centro, zoom, ndvi: bool) -> folium.Map:
          draw_options={"polyline": False, "circle": False, "circlemarker": False, "marker": False,
                        "polygon": {"allowIntersection": False, "showArea": True, "metric": ["ha", "m"], "shapeOptions": forma},
                        "rectangle": {"showArea": True, "metric": ["ha", "m"], "shapeOptions": forma}},
-         edit_options={"edit": True, "remove": True}).add_to(m)
+         # Sin lápiz ni borrador de Leaflet.draw: solo actúan sobre sus propios dibujos y se desincronizaban
+         # de los puntos numerados. Para quitar puntos se usa «Quitar un punto» (toque sobre el punto).
+         edit_options={"edit": False, "remove": False}).add_to(m)
     MousePosition(position="bottomleft", separator=" , ", prefix=tr("Coord."), num_digits=5, empty_string="").add_to(m)
     folium.LayerControl(collapsed=True, position="topright").add_to(m)
     return m
@@ -210,6 +212,32 @@ def confirmar_contorno(ss) -> bool:
     return True
 
 
+def quitar_punto_cercano(ss, lat: float, lon: float, max_m: float = 80) -> int | None:
+    """Quita el punto numerado más cercano al toque. Devuelve su índice (0 = punto 1) o None si no hay ninguno cerca.
+
+    Si el contorno estaba confirmado y quedan 3 o más puntos, se vuelve a cerrar con los puntos restantes;
+    si quedan menos de 3, se reabre para seguir marcando esquinas.
+    """
+    v = ss.get("mp_vertices") if isinstance(ss, dict) else getattr(ss, "mp_vertices", [])
+    if not v:
+        return None
+    dist = [distancia_km(lat, lon, p[0], p[1]) * 1000 for p in v]
+    i = min(range(len(v)), key=dist.__getitem__)
+    if dist[i] > max_m:
+        return None
+    v.pop(i)
+    cerrado = ss.get("mp_cerrado") if isinstance(ss, dict) else getattr(ss, "mp_cerrado", False)
+    if cerrado and len(v) >= MIN_PUNTOS:
+        confirmar_contorno(ss)
+    else:
+        for k, val in (("reg_poligono", None), ("mp_cerrado", False), ("mp_ultimo_dibujo", None)):
+            if isinstance(ss, dict):
+                ss[k] = val
+            else:
+                setattr(ss, k, val)
+    return i
+
+
 def contorno_pendiente(ss) -> bool:
     """Hay puntos marcados (3 o más) que todavía no se confirmaron."""
     return ss.get("mp_modo") == "esquinas" and not ss.get("mp_cerrado") and len(ss.get("mp_vertices") or []) >= MIN_PUNTOS
@@ -253,6 +281,7 @@ def selector(editando=None, ndvi: bool = False):
     ss.setdefault("mp_ultimo_clic", None)
     ss.setdefault("mp_ultimo_dibujo", None)
     ss.setdefault("mp_modo", "esquinas")
+    ss.setdefault("mp_quitar", False)
     ss.setdefault("mp_cerrado", bool(ss.get("reg_poligono")))
     if "mp_centro" not in ss or ss.get("mp_de") != ss.reg_de:
         ss.mp_de = ss.reg_de
@@ -345,6 +374,15 @@ def selector(editando=None, ndvi: bool = False):
             estado = "Toca las esquinas de tu terreno en el mapa satelital (en orden, recorriendo el borde)."
     else:
         estado = "Toca una vez en el mapa para marcar el punto de ubicación de tu terreno."
+    if ss.mp_modo == "esquinas" and v:
+        ss.mp_quitar = st.toggle(
+            "Quitar un punto: toca encima del punto que quieres borrar", value=ss.mp_quitar, key="mp_quitar_toggle",
+            help="Mientras esté activo, cada toque en el mapa borra el punto numerado más cercano en lugar de agregar uno nuevo.",
+        )
+    else:
+        ss.mp_quitar = False
+    if ss.mp_quitar:
+        estado = "Modo **quitar punto**: toca encima del punto que quieres borrar. Desactívalo para volver a agregar esquinas."
     st.info(estado, icon=":material/touch_app:")
     if ss.mp_modo == "esquinas" and contorno_cruzado(v):
         st.warning("Algunas líneas se cruzan: los puntos no siguen el borde del terreno. Usa **Deshacer último punto** "
@@ -372,8 +410,13 @@ def selector(editando=None, ndvi: bool = False):
             ss.mp_vertices = _vertices_de(cand)
             ss.mp_cerrado = True
             ss.mp_modo = "esquinas"
+            ss.mp_quitar = False
+            ss.pop("mp_quitar_toggle", None)
             if clic:
                 ss.mp_ultimo_clic = (round(clic["lat"], 7), round(clic["lng"], 7))
+            # El dibujo pasa a los puntos numerados; se rehace el mapa para no dejar una copia suelta de Leaflet.draw
+            ss.mp_centro, ss.mp_zoom = list(ss.reg_punto), max(ss.mp_zoom, 18)
+            ss.mp_version += 1
             st.rerun()
         elif ss.mp_ultimo_dibujo is not None and "all_drawings" in out and not dibujos:
             ss.mp_ultimo_dibujo = None
@@ -385,7 +428,20 @@ def selector(editando=None, ndvi: bool = False):
             k = (round(clic["lat"], 7), round(clic["lng"], 7))
             if k != ss.mp_ultimo_clic:
                 ss.mp_ultimo_clic = k
-                if ss.mp_modo == "esquinas":
+                if ss.mp_modo == "esquinas" and ss.mp_quitar:
+                    vv = ss.mp_vertices
+                    # tolerancia según el tamaño del dibujo (con el mapa lejos, un toque «encima» abarca más metros)
+                    ancho = max((distancia_km(a[0], a[1], b[0], b[1]) * 1000 for a in vv for b in vv), default=0)
+                    i = quitar_punto_cercano(ss, clic["lat"], clic["lng"], max_m=max(80, 0.2 * ancho))
+                    if i is None:
+                        st.toast(tr("Toca encima del punto que quieres borrar"), icon=":material/info:")
+                    else:
+                        st.toast(tr(f"Punto {i + 1} borrado"), icon=":material/delete:")
+                        if not ss.mp_vertices:
+                            ss.mp_quitar = False
+                            ss.pop("mp_quitar_toggle", None)
+                        st.rerun()
+                elif ss.mp_modo == "esquinas":
                     if not ss.mp_cerrado:
                         # Si ya hay 3 o más puntos y se toca cerca de la 1ra esquina (naranja), cerrar contorno
                         if len(ss.mp_vertices) >= MIN_PUNTOS:
