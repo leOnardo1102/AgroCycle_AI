@@ -28,7 +28,8 @@ showWidgetBorder = true
 toolbarMode = "minimal"
 
 [server]
-headless = false
+headless = true
+port = 8501
 
 [browser]
 gatherUsageStats = false
