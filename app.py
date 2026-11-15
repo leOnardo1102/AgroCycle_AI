@@ -19,6 +19,7 @@ if os.environ.get("_AGROCYCLE_RELOAD_TAG") != _RELOAD_TAG:
 from database.conexion import inicializar  # noqa: E402
 from modules import parcelas, tecnicos  # noqa: E402
 from ui import theme  # noqa: E402
+from vistas import guia  # noqa: E402
 from vistas import acerca, cartera, catalogo, comun, inicio, parcela, perfil, registro  # noqa: E402
 
 
@@ -51,6 +52,7 @@ ICONOS_MENU = {
 
 with st.sidebar:
     theme.marca()
+    guia.boton("guia_lateral")
     theme.seccion("Vista")
     vista = st.segmented_control(
         "Vista",
@@ -132,6 +134,7 @@ with st.sidebar:
     st.caption("Datos: NASA POWER, SRTM, GPM, SMAP, MODIS/Landsat y SoilGrids. Orientativo; no reemplaza al técnico agrícola.")
 
 # ------------------------------------------------------------------ contenido
+guia.abrir_la_primera_vez()  # la guía se abre sola en la primera visita de cada sesión
 if ss.pagina == "perfil":
     perfil.mostrar()
 elif ss.pagina == "cartera" or not ss.get("agricultor_id"):
