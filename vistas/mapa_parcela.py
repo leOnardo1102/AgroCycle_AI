@@ -20,7 +20,7 @@ from streamlit_folium import st_folium
 from modules.datos_ambientales import CANTONES
 from ui import theme
 from ui.i18n import en_ingles, tr
-from utils.calculos import area_poligono_ha
+from utils.calculos import area_poligono_ha, distancia_km
 from vistas.comun import capas_base, fmt
 
 TARJETAS_MODO = {  # clave: (título, descripción, icono)
