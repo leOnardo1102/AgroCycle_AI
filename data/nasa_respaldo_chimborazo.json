@@ -1,0 +1,101 @@
+{
+ "fuente": "NASA POWER",
+ "elev_celda": 3003.46,
+ "meses": [
+  {
+   "p": 124.0,
+   "t": 11.56,
+   "tmin": 3.61,
+   "tmax": 20.32,
+   "rad": null
+  },
+  {
+   "p": 144.5,
+   "t": 11.57,
+   "tmin": 4.99,
+   "tmax": 21.52,
+   "rad": null
+  },
+  {
+   "p": 161.5,
+   "t": 11.45,
+   "tmin": 5.04,
+   "tmax": 19.9,
+   "rad": null
+  },
+  {
+   "p": 162.0,
+   "t": 11.54,
+   "tmin": 2.32,
+   "tmax": 19.26,
+   "rad": null
+  },
+  {
+   "p": 129.3,
+   "t": 11.32,
+   "tmin": 3.2,
+   "tmax": 20.74,
+   "rad": null
+  },
+  {
+   "p": 111.0,
+   "t": 10.33,
+   "tmin": 1.7,
+   "tmax": 18.7,
+   "rad": null
+  },
+  {
+   "p": 88.7,
+   "t": 10.09,
+   "tmin": 1.55,
+   "tmax": 19.19,
+   "rad": null
+  },
+  {
+   "p": 75.0,
+   "t": 10.22,
+   "tmin": 1.03,
+   "tmax": 20.38,
+   "rad": null
+  },
+  {
+   "p": 66.6,
+   "t": 10.81,
+   "tmin": 1.15,
+   "tmax": 21.14,
+   "rad": null
+  },
+  {
+   "p": 109.1,
+   "t": 11.39,
+   "tmin": 3.21,
+   "tmax": 21.37,
+   "rad": null
+  },
+  {
+   "p": 112.8,
+   "t": 11.47,
+   "tmin": 3.31,
+   "tmax": 21.08,
+   "rad": null
+  },
+  {
+   "p": 112.5,
+   "t": 11.44,
+   "tmin": 3.5,
+   "tmax": 20.5,
+   "rad": null
+  }
+ ],
+ "ndvi_mensual": [0.58, 0.65, 0.74, 0.78, 0.66, 0.45, 0.24, 0.19, 0.23, 0.46, 0.55, 0.57],
+ "gpm": {
+  "dias_lluvia_intensa_anual": 14,
+  "intensidad_max_mm_dia": 29.5,
+  "frecuencia_mensual_intensa": [1.2, 1.8, 2.4, 2.5, 1.4, 0.6, 0.2, 0.1, 0.3, 1.5, 1.8, 1.2]
+ },
+ "smap": {
+  "humedad_mensual": [0.62, 0.68, 0.74, 0.76, 0.65, 0.48, 0.31, 0.25, 0.29, 0.54, 0.60, 0.61],
+  "humedad_normal": 0.54
+ },
+ "_nota": "Respuesta real de NASA POWER (climatología) para Riobamba -1.664,-78.654, enriquecida con series climatológicas calibradas de NDVI, GPM IMERG y SMAP para Chimborazo."
+}

@@ -1,0 +1,34 @@
+# Sistema de diseño AgroCycle AI (ver ui/theme.py para el CSS complementario)
+[theme]
+base = "light"
+primaryColor = "#16A34A"
+backgroundColor = "#F6F8F7"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1E293B"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+headingFont = "Plus Jakarta Sans:https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+headingFontWeights = [800, 700, 700, 700, 600, 600]
+baseRadius = "10px"
+buttonRadius = "10px"
+borderColor = "#CBD5E1"
+showWidgetBorder = true
+dataframeHeaderBackgroundColor = "#F8FAFC"
+dataframeBorderColor = "#E2E8F0"
+linkColor = "#15803D"
+
+[theme.sidebar]
+backgroundColor = "#0F291E"
+secondaryBackgroundColor = "#173A2B"
+textColor = "#F3F6F4"
+primaryColor = "#10B981"
+borderColor = "#2A4A3C"
+showWidgetBorder = true
+
+[client]
+toolbarMode = "minimal"
+
+[server]
+headless = false
+
+[browser]
+gatherUsageStats = false

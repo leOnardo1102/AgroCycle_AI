@@ -1,0 +1,118 @@
+{
+ "version": "0.2",
+ "nota": "Reglas usadas por el motor (sección 13). Las 'restricciones' son esenciales: se aplican ANTES de puntuar y una secuencia que incumpla una no puede recomendarse (13.4). Todas deben validarse con los integrantes de agroindustria y ambiental (RN-10).",
+ "restricciones": [
+  {
+   "id": "R01",
+   "nombre": "No repetir cultivo",
+   "descripcion": "El mismo cultivo no se siembra en dos ciclos seguidos (incluye el último cultivo del historial).",
+   "tipo": "mismo_cultivo_consecutivo",
+   "estado_validacion": "pendiente"
+  },
+  {
+   "id": "R02",
+   "nombre": "Descanso de la papa",
+   "descripcion": "Entre dos siembras de solanáceas (papa) debe haber al menos 2 ciclos de otras familias, contando el historial. Corta el ciclo del gusano blanco (Premnotrypes vorax), nematodo del quiste y lancha.",
+   "tipo": "intervalo_familia",
+   "familia": "Solanáceas",
+   "ciclos_minimos": 2,
+   "estado_validacion": "pendiente"
+  },
+  {
+   "id": "R03",
+   "nombre": "Aliáceas no seguidas",
+   "descripcion": "Cebolla y ajo no se suceden (pudrición blanca, Sclerotium cepivorum).",
+   "tipo": "intervalo_familia",
+   "familia": "Aliáceas",
+   "ciclos_minimos": 1,
+   "estado_validacion": "pendiente"
+  },
+  {
+   "id": "R04",
+   "nombre": "Crucíferas no seguidas",
+   "descripcion": "Brócoli y otras crucíferas no se suceden (hernia de la col).",
+   "tipo": "intervalo_familia",
+   "familia": "Brasicáceas",
+   "ciclos_minimos": 1,
+   "estado_validacion": "pendiente"
+  },
+  {
+   "id": "R05",
+   "nombre": "Altitud adecuada",
+   "descripcion": "No se recomienda un cultivo a más de 250 m fuera de su rango de altitud.",
+   "tipo": "altitud",
+   "margen_m": 250,
+   "estado_validacion": "pendiente"
+  },
+  {
+   "id": "R06",
+   "nombre": "Incluir una leguminosa",
+   "descripcion": "Cada rotación incluye al menos una leguminosa o abono verde que aporte nitrógeno (configurable).",
+   "tipo": "aporte_nitrogeno",
+   "n_minimo_kg_ha": 30,
+   "estado_validacion": "pendiente"
+  },
+  {
+   "id": "R07",
+   "nombre": "Encharcamiento",
+   "descripcion": "Si el agricultor reporta encharcamiento, no se recomiendan cultivos sensibles (papa, chocho, quinua).",
+   "tipo": "encharcamiento",
+   "estado_validacion": "pendiente"
+  }
+ ],
+ "penalizaciones_sanidad": {
+  "mismo_cultivo": 30,
+  "misma_familia": {
+   "Solanáceas": 30,
+   "Leguminosas": 20,
+   "Aliáceas": 25,
+   "Brasicáceas": 25,
+   "Gramíneas": 8,
+   "otras": 15
+  },
+  "familia_a_dos_ciclos": {
+   "Solanáceas": 20,
+   "Aliáceas": 12,
+   "Brasicáceas": 10,
+   "Leguminosas": 6
+  },
+  "bonificacion_rompe_ciclo_papa": 4,
+  "rompe_ciclo_papa": [
+   "Gramíneas",
+   "Aliáceas",
+   "Abono verde"
+  ],
+  "cultivo_repetido_en_rotacion": 8
+ },
+ "parametros": {
+  "gradiente_termico_c_por_m": -0.0058,
+  "precio_n_usd_kg": 1.7,
+  "mineralizacion_n_por_mo_pct": 12,
+  "mineralizacion_n_max": 60,
+  "mes_preparacion_entre_cultivos": 1
+ },
+ "plan_anual": {
+  "descripcion": "Plan de 12 meses en 3 etapas consecutivas según las lluvias de Chimborazo.",
+  "mes_inicio_sugerido": 9,
+  "etapas": [
+   {
+    "n": 1,
+    "nombre": "Lluvias",
+    "rol": "Cultivo principal",
+    "meses": 5
+   },
+   {
+    "n": 2,
+    "nombre": "Salida de lluvias",
+    "rol": "Ciclo corto / recuperador de tierra",
+    "meses": 4
+   },
+   {
+    "n": 3,
+    "nombre": "Verano",
+    "rol": "Cultivo resistente o cobertura forrajera",
+    "meses": 3
+   }
+  ]
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "fuente": "NASA POWER",
+ "elev_celda": 3003.46,
+ "meses": [
+  {
+   "p": 124.0,
+   "t": 11.56,
+   "tmin": 3.61,
+   "tmax": 20.32,
+   "rad": null
+  },
+  {
+   "p": 144.5,
+   "t": 11.57,
+   "tmin": 4.99,
+   "tmax": 21.52,
+   "rad": null
+  },
+  {
+   "p": 161.5,
+   "t": 11.45,
+   "tmin": 5.04,
+   "tmax": 19.9,
+   "rad": null
+  },
+  {
+   "p": 162.0,
+   "t": 11.54,
+   "tmin": 2.32,
+   "tmax": 19.26,
+   "rad": null
+  },
+  {
+   "p": 129.3,
+   "t": 11.32,
+   "tmin": 3.2,
+   "tmax": 20.74,
+   "rad": null
+  },
+  {
+   "p": 111.0,
+   "t": 10.33,
+   "tmin": 1.7,
+   "tmax": 18.7,
+   "rad": null
+  },
+  {
+   "p": 88.7,
+   "t": 10.09,
+   "tmin": 1.55,
+   "tmax": 19.19,
+   "rad": null
+  },
+  {
+   "p": 75.0,
+   "t": 10.22,
+   "tmin": 1.03,
+   "tmax": 20.38,
+   "rad": null
+  },
+  {
+   "p": 66.6,
+   "t": 10.81,
+   "tmin": 1.15,
+   "tmax": 21.14,
+   "rad": null
+  },
+  {
+   "p": 109.1,
+   "t": 11.39,
+   "tmin": 3.21,
+   "tmax": 21.37,
+   "rad": null
+  },
+  {
+   "p": 112.8,
+   "t": 11.47,
+   "tmin": 3.31,
+   "tmax": 21.08,
+   "rad": null
+  },
+  {
+   "p": 112.5,
+   "t": 11.44,
+   "tmin": 3.5,
+   "tmax": 20.5,
+   "rad": null
+  }
+ ],
+ "_nota": "Respuesta real de NASA POWER para Riobamba (-1.664, -78.654), consultada el 14/11/2026"
+}

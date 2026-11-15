@@ -1,0 +1,9 @@
+{
+ "fuente": "SoilGrids",
+ "ph": 6.7,
+ "materia_organica": 7.7,
+ "arena": 43,
+ "arcilla": 23,
+ "textura": "franco",
+ "_nota": "Respuesta real SoilGrids cerca de Guano"
+}

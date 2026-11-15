@@ -1,0 +1,8 @@
+{
+ "fuente": "NASA SRTM",
+ "elevacion": 2771,
+ "pendiente": 0.8,
+ "riesgo_erosion_ladera": "bajo",
+ "clase_relieve": "Plano a ligeramente inclinado",
+ "_nota": "Respuesta real SRTM para Riobamba"
+}

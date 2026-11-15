@@ -1,0 +1,77 @@
+{
+ "nota": "Lluvia anual de referencia aproximada por cantón (para calibrar NASA POWER). Validar con estaciones INAMHI.",
+ "cantones": [
+  {
+   "id": "riobamba",
+   "nombre": "Riobamba",
+   "lat": -1.664,
+   "lon": -78.654,
+   "altitud": 2750,
+   "lluvia_anual_mm": 480
+  },
+  {
+   "id": "guano",
+   "nombre": "Guano",
+   "lat": -1.607,
+   "lon": -78.632,
+   "altitud": 2720,
+   "lluvia_anual_mm": 450
+  },
+  {
+   "id": "chambo",
+   "nombre": "Chambo",
+   "lat": -1.73,
+   "lon": -78.597,
+   "altitud": 2780,
+   "lluvia_anual_mm": 600
+  },
+  {
+   "id": "penipe",
+   "nombre": "Penipe",
+   "lat": -1.568,
+   "lon": -78.527,
+   "altitud": 2460,
+   "lluvia_anual_mm": 700
+  },
+  {
+   "id": "colta",
+   "nombre": "Colta (Cajabamba)",
+   "lat": -1.7,
+   "lon": -78.763,
+   "altitud": 3200,
+   "lluvia_anual_mm": 750
+  },
+  {
+   "id": "guamote",
+   "nombre": "Guamote",
+   "lat": -1.933,
+   "lon": -78.71,
+   "altitud": 3050,
+   "lluvia_anual_mm": 550
+  },
+  {
+   "id": "alausi",
+   "nombre": "Alausí",
+   "lat": -2.199,
+   "lon": -78.846,
+   "altitud": 2340,
+   "lluvia_anual_mm": 550
+  },
+  {
+   "id": "chunchi",
+   "nombre": "Chunchi",
+   "lat": -2.287,
+   "lon": -78.917,
+   "altitud": 2280,
+   "lluvia_anual_mm": 750
+  },
+  {
+   "id": "pallatanga",
+   "nombre": "Pallatanga",
+   "lat": -1.997,
+   "lon": -78.958,
+   "altitud": 1500,
+   "lluvia_anual_mm": 1200
+  }
+ ]
+}
