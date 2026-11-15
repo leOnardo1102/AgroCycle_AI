@@ -6,6 +6,7 @@ from streamlit_folium import st_folium
 
 from modules import historial, parcelas, recomendaciones
 from ui import theme
+from ui.i18n import tr
 from vistas import guia
 from vistas.comun import fmt, ir, mapa_general
 
@@ -21,8 +22,32 @@ def _corto(nombre: str) -> str:
     return nombre.split(" (")[0]
 
 
+def _confirmar_eliminar(p, n_hist: int, n_planes: int):
+    """Ventana de confirmación antes de borrar un terreno (no se puede deshacer)."""
+    ss = st.session_state
+    st.markdown(f"¿Seguro que quieres eliminar **{escape(p.nombre)}** ({fmt(p.superficie, 2)} ha)?")
+    st.warning(
+        f"Se borrarán también sus {n_hist} registros de historial y {n_planes} planes guardados. "
+        "Esta acción no se puede deshacer.",
+        icon=":material/warning:",
+    )
+    c1, c2 = st.columns(2)
+    if c1.button("Cancelar", key="elim_cancelar", width="stretch"):
+        st.rerun()
+    if c2.button("Sí, eliminar", key="elim_ok", type="primary", icon=":material/delete:", width="stretch"):
+        parcelas.eliminar(p.id_parcela)
+        if ss.get("parcela_id") == p.id_parcela:
+            ss.parcela_id = None
+        if ss.get("editar_id") == p.id_parcela:
+            ss.editar_id = None
+        ss.aviso_eliminada = p.nombre
+        st.rerun()
+
+
 def mostrar():
     ss = st.session_state
+    if ss.get("aviso_eliminada"):
+        st.toast(tr("Terreno eliminado") + f": {ss.pop('aviso_eliminada')}", icon=":material/delete:")
     agr = parcelas.obtener_agricultor(ss.agricultor_id)
     lista = parcelas.listar(ss.agricultor_id)
     sub = " · ".join(x for x in [agr.comunidad if agr else None, f"Cel. {agr.telefono}" if agr and agr.telefono else None] if x)
@@ -108,7 +133,7 @@ def mostrar():
                 f"<div class='pie'>{escape(pie)}</div></div>",
                 unsafe_allow_html=True,
             )
-            b1, b2 = st.columns([2, 1])
+            b1, b2, b3 = st.columns([2, 1, 1])
             if b1.button(
                 "Abrir parcela",
                 key=f"abrir_{p.id_parcela}",
@@ -119,3 +144,5 @@ def mostrar():
                 ir("parcela", parcela_id=p.id_parcela)
             if b2.button("Editar", key=f"editar_{p.id_parcela}", icon=":material/edit:", width="stretch"):
                 ir("registro", editar_id=p.id_parcela)
+            if b3.button("Eliminar", key=f"eliminar_{p.id_parcela}", icon=":material/delete:", width="stretch"):
+                st.dialog(tr("Eliminar terreno"))(_confirmar_eliminar)(p, len(hist), len(planes))

@@ -622,3 +622,11 @@ EXACTAS.update({
     "Cada rotación incluye al menos una leguminosa o abono verde que aporte nitrógeno (configurable).": "Each rotation includes at least one legume or green manure that supplies nitrogen (configurable).",
     "Si el agricultor reporta encharcamiento, no se recomiendan cultivos sensibles (papa, chocho, quinua).": "If the farmer reports waterlogging, sensitive crops (potato, lupin, quinoa) are not recommended.",
 })
+EXACTAS.update({
+    "Eliminar": "Delete", "Eliminar terreno": "Delete plot", "Terreno eliminado": "Plot deleted",
+    "Cancelar": "Cancel", "Sí, eliminar": "Yes, delete",
+    "Se borrarán también sus # registros de historial y # planes guardados. Esta acción no se puede deshacer.":
+        "Its # history records and # saved plans will also be deleted. This cannot be undone.",
+})
+PLANTILLAS.append((r"¿Seguro que quieres eliminar \*\*(?P<n>.+)\*\* \((?P<a>[\d.,]+) ha\)\?",
+                   lambda m, p: f"Are you sure you want to delete **{m.group('n')}** ({m.group('a').replace('.', '').replace(',', '.')} ha)?"))
