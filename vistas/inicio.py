@@ -19,6 +19,33 @@ AGUA_CORTO = {"completo": "Permanente", "turnos": "Por turnos", "secano": "Solo 
 def _corto(nombre: str) -> str:
     return nombre.split(" (")[0]
 
+@st.dialog("📖 Guía rápida — AgroCycle AI", width="large")
+def mostrar_guia_rapida():
+    st.markdown(
+        """
+        **AgroCycle AI** apoya la planificación de rotación de cultivos en Chimborazo 
+        integrando datos satelitales y agroclimáticos (**NASA POWER, SRTM, GPM, SMAP, 
+        MODIS/Landsat y SoilGrids**).
+
+        #### ¿Cómo probar la plataforma en 3 pasos?
+
+        1. **Elige el enfoque en el panel izquierdo:** Alterna entre vista **Agricultor** 
+           (lenguaje sencillo de campo) o vista **Técnica** (indicadores agronómicos y 
+           variables satelitales).
+        2. **Selecciona o crea una parcela:** Haz clic en **Abrir parcela** en un terreno 
+           listo para planificar (como *Huerta junto al canal*) o registra uno nuevo en el 
+           mapa con **+ Nueva parcela**.
+        3. **Genera el plan de rotación:** Dentro de la parcela, ejecuta el motor de 
+           recomendación para evaluar cultivos sucesores según historial, disponibilidad de 
+           riego y condiciones climáticas de la zona.
+        """
+    )
+    st.info(
+        "💡 **Nota:** Las recomendaciones son orientativas y complementan el criterio del "
+        "técnico agrícola en campo."
+    )
+    if st.button("Entendido, explorar parcelas", type="primary", use_container_width=True):
+        st.rerun()
 
 def mostrar():
     ss = st.session_state
@@ -77,10 +104,12 @@ def mostrar():
             unsafe_allow_html=True,
         )
     with der:
-        c1, c2 = st.columns([1.3, 1], vertical_alignment="center")
+        c1, c2, c3 = st.columns([1.1, 1, 1], vertical_alignment="center")
         with c1:
             theme.subtitulo_icono("capas", "Terrenos")
-        if c2.button("Nueva parcela", icon=":material/add:", width="stretch"):
+        if c2.button("Guía rápida", icon=":material/help:", width="stretch"):
+            mostrar_guia_rapida()
+        if c3.button("Nueva parcela", icon=":material/add:", width="stretch"):
             ir("registro", editar_id=None)
         orden = {"falta": 0, "lista": 1, "plan": 2}
         for p, hist, planes, estado in sorted(info, key=lambda x: orden[x[3]]):
