@@ -78,6 +78,16 @@ def mostrar():
         obs = st.text_area("Observaciones (opcional)", value=(editando.observaciones or "") if editando else "")
         enviado = st.form_submit_button("Guardar y continuar al plan anual", icon=":material/arrow_forward:", type="primary", width="stretch")
     if enviado:
+        if mapa_parcela.contorno_pendiente(ss):
+            if not mapa_parcela.contorno_cruzado(ss.get("mp_vertices") or []):
+                mapa_parcela.confirmar_contorno(ss)
+            else:
+                st.error("Algunas líneas se cruzan en el terreno marcado. Corrige los puntos tocándolos en orden antes de guardar.", icon=":material/polyline:")
+                return
+        if ss.get("reg_poligono") and (not superficie or superficie == 1.0):
+            area_pol = mapa_parcela.area_poligono_ha(ss.reg_poligono["geometry"]["coordinates"][0])
+            if area_pol:
+                superficie = max(0.01, float(round(area_pol, 2)))
         datos = {"nombre": nombre, "latitud": ss.reg_punto[0], "longitud": ss.reg_punto[1], "superficie": superficie,
                  "disponibilidad_agua": agua, "pendiente": pend, "observaciones": obs or None, "problemas": problemas,
                  "ph": ph, "materia_organica": mo, "textura": textura, "drenaje": drenaje,

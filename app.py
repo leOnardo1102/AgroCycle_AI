@@ -140,7 +140,7 @@ with st.sidebar:
     st.caption("Datos: NASA POWER, SRTM, GPM, SMAP, MODIS/Landsat y SoilGrids. Orientativo; no reemplaza al técnico agrícola.")
 
 # ------------------------------------------------------------------ contenido
-guia.abrir_la_primera_vez()  # la guía se abre sola en la primera visita de cada sesión
+guia.revisar_apertura()  # se abre sola en la primera visita o al pulsar «Guía rápida»
 if ss.pagina == "perfil":
     perfil.mostrar()
 elif ss.pagina == "cartera" or not ss.get("agricultor_id"):

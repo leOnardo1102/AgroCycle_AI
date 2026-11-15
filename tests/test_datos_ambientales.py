@@ -114,3 +114,19 @@ def test_ndvi_gpm_smap_srtm_y_tabla_fusion(parcela):
     assert len(amb.TABLA_FUSION_ESCALAS) == 6
     assert any("SRTM" in fila["Fuente satelital"] for fila in amb.TABLA_FUSION_ESCALAS)
 
+
+def test_soilgrids_fallback_cantonal(parcela, monkeypatch):
+    from modules import datos_ambientales as amb
+    from services import ServicioNoDisponible
+
+    def falla(lat, lon):
+        raise ServicioNoDisponible("SoilGrids no respondió (ReadTimeout)")
+
+    monkeypatch.setitem(amb.SERVICIOS, "SoilGrids", falla)
+    d = amb.obtener(parcela, forzar=True)
+    assert d["SoilGrids"] is not None
+    assert d["SoilGrids"]["ph"] is not None
+    assert d["SoilGrids"]["materia_organica"] is not None
+    assert any("SoilGrids" in a and "referencia" in a for a in d["avisos"])
+
+

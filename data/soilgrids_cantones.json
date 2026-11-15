@@ -1,0 +1,113 @@
+{
+ "nota": "Mediana de las celdas SoilGrids 2.0 válidas (0-30 cm, media ponderada) en ~3 km alrededor de cada cabecera cantonal, descargadas del WCS de ISRIC el 15/11/2026. Respaldo cuando SoilGrids no responde.",
+ "cantones": [
+  {
+   "id": "riobamba",
+   "nombre": "Riobamba",
+   "lat": -1.664,
+   "lon": -78.654,
+   "celdas": 266,
+   "ph": 6.9,
+   "materia_organica": 5.0,
+   "arena": 43,
+   "arcilla": 23,
+   "textura": "franco"
+  },
+  {
+   "id": "guano",
+   "nombre": "Guano",
+   "lat": -1.607,
+   "lon": -78.632,
+   "celdas": 645,
+   "ph": 6.8,
+   "materia_organica": 6.2,
+   "arena": 43,
+   "arcilla": 23,
+   "textura": "franco"
+  },
+  {
+   "id": "chambo",
+   "nombre": "Chambo",
+   "lat": -1.73,
+   "lon": -78.597,
+   "celdas": 663,
+   "ph": 6.1,
+   "materia_organica": 8.4,
+   "arena": 41,
+   "arcilla": 23,
+   "textura": "franco"
+  },
+  {
+   "id": "penipe",
+   "nombre": "Penipe",
+   "lat": -1.568,
+   "lon": -78.527,
+   "celdas": 672,
+   "ph": 6.2,
+   "materia_organica": 10.5,
+   "arena": 43,
+   "arcilla": 23,
+   "textura": "franco"
+  },
+  {
+   "id": "colta",
+   "nombre": "Colta (Cajabamba)",
+   "lat": -1.7,
+   "lon": -78.763,
+   "celdas": 646,
+   "ph": 6.7,
+   "materia_organica": 7.4,
+   "arena": 47,
+   "arcilla": 19,
+   "textura": "franco"
+  },
+  {
+   "id": "guamote",
+   "nombre": "Guamote",
+   "lat": -1.933,
+   "lon": -78.71,
+   "celdas": 658,
+   "ph": 6.7,
+   "materia_organica": 7.5,
+   "arena": 47,
+   "arcilla": 19,
+   "textura": "franco"
+  },
+  {
+   "id": "alausi",
+   "nombre": "Alausí",
+   "lat": -2.199,
+   "lon": -78.846,
+   "celdas": 659,
+   "ph": 6.7,
+   "materia_organica": 5.6,
+   "arena": 43,
+   "arcilla": 21,
+   "textura": "franco"
+  },
+  {
+   "id": "chunchi",
+   "nombre": "Chunchi",
+   "lat": -2.287,
+   "lon": -78.917,
+   "celdas": 670,
+   "ph": 6.2,
+   "materia_organica": 5.2,
+   "arena": 40,
+   "arcilla": 26,
+   "textura": "franco"
+  },
+  {
+   "id": "pallatanga",
+   "nombre": "Pallatanga",
+   "lat": -1.997,
+   "lon": -78.958,
+   "celdas": 673,
+   "ph": 5.7,
+   "materia_organica": 6.8,
+   "arena": 39,
+   "arcilla": 28,
+   "textura": "francoarcilloso"
+  }
+ ]
+}

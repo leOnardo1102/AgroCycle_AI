@@ -16,6 +16,8 @@ from utils.validaciones import TEXTURAS
 
 RAIZ = Path(__file__).resolve().parent.parent
 CANTONES = json.loads((RAIZ / "data" / "cantones.json").read_text(encoding="utf-8"))["cantones"]
+RESPALDO_SUELO = RAIZ / "data" / "soilgrids_cantones.json"
+FUENTE_RESPALDO_SUELO = "SoilGrids (referencia cantonal)"
 VIGENCIA_DIAS = VIGENCIA_DATOS_DIAS
 GRADIENTE = -0.0058  # °C por metro
 
@@ -103,7 +105,8 @@ def _a_filas(fuente: str, d: dict) -> list[tuple]:
         filas += [(f"SMAP_{i:02d}", v, "0-1") for i, v in enumerate(d["humedad_mensual"], 1)]
         return filas
     return [(v, d[k], u) for v, k, u in (("PH", "ph", "pH"), ("MO", "materia_organica", "%"),
-                                          ("ARENA", "arena", "%"), ("ARCILLA", "arcilla", "%")) if d.get(k) is not None]
+                                          ("ARENA", "arena", "%"), ("ARCILLA", "arcilla", "%"),
+                                          ("DIST_M", "distancia_m", "m")) if d.get(k) is not None]
 
 
 def _de_filas(fuente: str, f: dict) -> dict:
@@ -126,7 +129,8 @@ def _de_filas(fuente: str, f: dict) -> dict:
         serie = [f[f"SMAP_{i:02d}"] for i in range(1, 13)]
         return smap.reconstruir_desde_curva(serie, humedad_normal=f.get("SMAP_NORM"))
     return {"fuente": fuente, "ph": f.get("PH"), "materia_organica": f.get("MO"), "arena": f.get("ARENA"), "arcilla": f.get("ARCILLA"),
-            "textura": textura_usda(f["ARENA"], f["ARCILLA"]) if "ARENA" in f and "ARCILLA" in f else None}
+            "textura": textura_usda(f["ARENA"], f["ARCILLA"]) if "ARENA" in f and "ARCILLA" in f else None,
+            "distancia_m": f.get("DIST_M")}
 
 
 def _leer(id_parcela: int, fuente: str) -> tuple[dict | None, date | None]:
@@ -162,7 +166,14 @@ def obtener(parcela: Parcela, forzar: bool = False) -> dict:
                     res["avisos"].append(f"{e}. Se usan los datos guardados del {fecha:%d/%m/%Y}.")
                 elif fuente == "NASA POWER" and RESPALDO_NASA.exists():
                     datos = json.loads(RESPALDO_NASA.read_text(encoding="utf-8")) | {"fuente": FUENTE_RESPALDO}
+                    _guardar(parcela.id_parcela, fuente, datos)
+                    fecha = date.today()
                     res["avisos"].append(f"{e}. Se usa el respaldo de NASA POWER de Riobamba (datos reales guardados).")
+                elif fuente == "SoilGrids" and (ref := suelo_referencia(parcela.latitud, parcela.longitud)):
+                    datos = ref
+                    _guardar(parcela.id_parcela, fuente, datos)
+                    fecha = date.today()
+                    res["avisos"].append(f"SoilGrids tardó en responder. Se guardó el suelo de referencia cantonal de {ref['canton']} (datos reales).")
                 else:
                     res["avisos"].append(str(e))
         res[fuente] = datos
@@ -173,6 +184,19 @@ def obtener(parcela: Parcela, forzar: bool = False) -> dict:
 # ------------------------------------------------------------------ interpretación
 def canton_cercano(lat: float, lon: float) -> dict:
     return min(CANTONES, key=lambda c: distancia_km(lat, lon, c["lat"], c["lon"]))
+
+
+def suelo_referencia(lat: float, lon: float) -> dict | None:
+    """Suelo SoilGrids guardado del cantón más cercano (respaldo si SoilGrids no responde o no tiene la celda)."""
+    try:
+        refs = json.loads(RESPALDO_SUELO.read_text(encoding="utf-8"))["cantones"]
+    except (OSError, ValueError, KeyError):
+        return None
+    if not refs:
+        return None
+    r = min(refs, key=lambda c: distancia_km(lat, lon, c["lat"], c["lon"]))
+    return {"fuente": FUENTE_RESPALDO_SUELO, "canton": r["nombre"], "ph": r["ph"], "materia_organica": r["materia_organica"],
+            "arena": r["arena"], "arcilla": r["arcilla"], "textura": r["textura"]}
 
 
 def clima_parcela(parcela: Parcela, amb: dict, modo_lluvia: str = "auto") -> dict:

@@ -4,6 +4,7 @@ import streamlit as st
 from folium.plugins import Draw, Fullscreen, MeasureControl
 
 from ui import theme
+from ui.i18n import en_ingles, tr
 from utils.calculos import MESES_L
 
 
@@ -73,25 +74,25 @@ def capas_base(m: folium.Map, ndvi: bool = False):
     """Capas comunes: Google Satélite Híbrido activo por defecto y capas secundarias ocultas hasta seleccionarse."""
     from branca.element import Element
     folium.TileLayer(
-        "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}&hl=es",
-        attr="Imágenes © Google · Maxar · CNES/Airbus",
-        name="Satélite nítido (con nombres)",
+        "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}&hl=" + ("en" if en_ingles() else "es"),
+        attr=tr("Imágenes © Google · Maxar · CNES/Airbus"),
+        name=tr("Satélite nítido (con nombres)"),
         max_zoom=22,
         max_native_zoom=20,
         show=True,
     ).add_to(m)
     folium.TileLayer(
         "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-        attr="Imágenes © Google · Maxar · CNES/Airbus",
-        name="Satélite (solo terreno)",
+        attr=tr("Imágenes © Google · Maxar · CNES/Airbus"),
+        name=tr("Satélite (solo terreno)"),
         max_zoom=22,
         max_native_zoom=20,
         show=False,
     ).add_to(m)
     folium.TileLayer(
         f"{ESRI}/World_Imagery/MapServer/tile/{{z}}/{{y}}/{{x}}",
-        attr="Imágenes © Esri, Maxar, Earthstar Geographics",
-        name="Satélite Esri",
+        attr=tr("Imágenes © Esri, Maxar, Earthstar Geographics"),
+        name=tr("Satélite Esri"),
         max_zoom=22,
         max_native_zoom=19,
         show=False,
@@ -99,7 +100,7 @@ def capas_base(m: folium.Map, ndvi: bool = False):
     folium.TileLayer(
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
         attr="© OpenStreetMap · © CARTO",
-        name="Calles",
+        name=tr("Calles"),
         max_zoom=22,
         max_native_zoom=19,
         show=False,
@@ -107,7 +108,7 @@ def capas_base(m: folium.Map, ndvi: bool = False):
     folium.TileLayer(
         "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
         attr="© OpenTopoMap (CC-BY-SA)",
-        name="Relieve",
+        name=tr("Relieve"),
         max_zoom=20,
         max_native_zoom=17,
         show=False,
@@ -115,7 +116,7 @@ def capas_base(m: folium.Map, ndvi: bool = False):
     folium.TileLayer(
         f"{ESRI}/Reference/World_Boundaries_and_Places/MapServer/tile/{{z}}/{{y}}/{{x}}",
         attr="Esri",
-        name="Nombres de lugares",
+        name=tr("Nombres de lugares"),
         overlay=True,
         show=False,
         max_zoom=22,
@@ -124,7 +125,7 @@ def capas_base(m: folium.Map, ndvi: bool = False):
     folium.TileLayer(
         f"{ESRI}/Reference/World_Transportation/MapServer/tile/{{z}}/{{y}}/{{x}}",
         attr="Esri",
-        name="Vías",
+        name=tr("Vías"),
         overlay=True,
         show=False,
         max_zoom=22,
@@ -135,18 +136,18 @@ def capas_base(m: folium.Map, ndvi: bool = False):
         from datetime import date, timedelta
         f = (date.today() - timedelta(days=45)).isoformat()
         folium.TileLayer(f"https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_NDVI_8Day/default/{f}/GoogleMapsCompatible_Level9/{{z}}/{{y}}/{{x}}.png",
-                         attr="NASA GIBS · MODIS NDVI", name="Vegetación NDVI (NASA MODIS)", overlay=True, opacity=0.6,
+                         attr="NASA GIBS · MODIS NDVI", name=tr("Vegetación NDVI (NASA MODIS)"), overlay=True, opacity=0.6,
                          max_native_zoom=9, max_zoom=22, show=False).add_to(m)
     m.get_root().header.add_child(Element(MAPA_CSS))
 
 
 def controles(m: folium.Map, minimapa: bool = False, medir: bool = True):
     from folium.plugins import MiniMap, MousePosition
-    Fullscreen(position="topleft", title="Pantalla completa", title_cancel="Salir de pantalla completa").add_to(m)
+    Fullscreen(position="topleft", title=tr("Pantalla completa"), title_cancel=tr("Salir de pantalla completa")).add_to(m)
     if medir:
         MeasureControl(position="topleft", primary_length_unit="meters", secondary_length_unit=None,
                        primary_area_unit="hectares", secondary_area_unit="sqmeters").add_to(m)
-    MousePosition(position="bottomleft", separator=" , ", prefix="Coord.", num_digits=5, empty_string="").add_to(m)
+    MousePosition(position="bottomleft", separator=" , ", prefix=tr("Coord."), num_digits=5, empty_string="").add_to(m)
     if minimapa:
         MiniMap(tile_layer=folium.TileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
                                             attr="CARTO"), position="bottomright", width=130, height=110,
@@ -170,9 +171,9 @@ def mapa(lat: float, lon: float, zoom: int = 18, poligono: dict | None = None, d
     if poligono:
         g = folium.GeoJson(
             poligono,
-            name="Contorno de la parcela",
+            name=tr("Contorno de la parcela"),
             style_function=lambda _: {"color": "#facc15", "weight": 3.5, "fillColor": "#22c55e", "fillOpacity": 0.28},
-            tooltip=folium.Tooltip(f"{nombre} · {_area_txt(poligono)}", sticky=True),
+            tooltip=folium.Tooltip(tr(f"{nombre} · {_area_txt(poligono)}"), sticky=True),
         )
         g.add_to(m)
         b = g.get_bounds()
@@ -181,7 +182,7 @@ def mapa(lat: float, lon: float, zoom: int = 18, poligono: dict | None = None, d
         else:
             m.options["zoom"] = max(zoom, 18)
     if marcador:
-        folium.Marker([lat, lon], tooltip=folium.Tooltip(nombre, permanent=True, direction="top", offset=(0, -34),
+        folium.Marker([lat, lon], tooltip=folium.Tooltip(tr(nombre), permanent=True, direction="top", offset=(0, -34),
                                                          class_name="etiqueta-parcela"),
                       icon=folium.Icon(color="green", icon="leaf", prefix="fa")).add_to(m)
     if dibujar:
@@ -204,7 +205,7 @@ def mapa_general(lista: list, colores: dict | None = None, seleccion: int | None
     centro = [sum(x for x, _ in pts) / len(pts), sum(y for _, y in pts) / len(pts)]
     m = folium.Map(location=centro, zoom_start=16, tiles=None, control_scale=True, max_zoom=22)
     capas_base(m)
-    fg = folium.FeatureGroup(name="Parcelas").add_to(m)
+    fg = folium.FeatureGroup(name=tr("Parcelas")).add_to(m)
     limites = []
     for p in lista:
         c = colores.get(p.id_parcela, "#2f6b3a")
@@ -215,7 +216,7 @@ def mapa_general(lista: list, colores: dict | None = None, seleccion: int | None
             gj = folium.GeoJson(pol, style_function=lambda _, c=c: {"color": "#ffffff", "weight": 2.5, "fillColor": c, "fillOpacity": 0.45},
                                 highlight_function=lambda _: {"weight": 4, "fillOpacity": 0.6},
                                 tooltip=folium.Tooltip(p.nombre, permanent=True, class_name="etiqueta-parcela", direction="center"),
-                                popup=folium.Popup(ficha, max_width=260))
+                                popup=folium.Popup(tr(ficha), max_width=260))
             gj.add_to(fg)
             b = gj.get_bounds()
             limites += [b[0], b[1]]
@@ -223,7 +224,7 @@ def mapa_general(lista: list, colores: dict | None = None, seleccion: int | None
             folium.CircleMarker([p.latitud, p.longitud], radius=11, color="#fff", weight=3, fill=True, fill_color=c, fill_opacity=1,
                                 tooltip=folium.Tooltip(p.nombre, permanent=True, class_name="etiqueta-parcela", direction="top",
                                                        offset=(0, -12)),
-                                popup=folium.Popup(ficha, max_width=260)).add_to(fg)
+                                popup=folium.Popup(tr(ficha), max_width=260)).add_to(fg)
             limites.append([p.latitud, p.longitud])
     if limites:
         las, los = [x[0] for x in limites], [x[1] for x in limites]
