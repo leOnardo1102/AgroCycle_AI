@@ -1,4 +1,4 @@
-"""AgroCycle AI - apoyo a la decisión de rotación de cultivos con datos de la NASA (Chimborazo, Ecuador).
+"""AgroCycle - apoyo a la decisión de rotación de cultivos con datos de la NASA (Chimborazo, Ecuador).
 
 Ejecutar:  streamlit run app.py
 """
@@ -7,7 +7,12 @@ import sys
 
 import streamlit as st
 
-st.set_page_config(page_title="AgroCycle AI", page_icon="🌿", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="AgroCycle", page_icon="🌿", layout="wide", initial_sidebar_state="expanded")
+
+from ui import i18n  # noqa: E402  (capa de idioma: Español / English)
+
+i18n.instalar()
+i18n.iniciar_idioma()
 
 _RELOAD_TAG = "agrocycle_v4_satelite_2026"
 if os.environ.get("_AGROCYCLE_RELOAD_TAG") != _RELOAD_TAG:
@@ -52,6 +57,7 @@ ICONOS_MENU = {
 
 with st.sidebar:
     theme.marca()
+    i18n.selector()
     guia.boton("guia_lateral")
     theme.seccion("Vista")
     vista = st.segmented_control(

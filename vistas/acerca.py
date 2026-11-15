@@ -9,7 +9,7 @@ from vistas.comun import encabezado
 
 def mostrar():
     encabezado(
-        "Acerca de AgroCycle AI",
+        "Acerca de AgroCycle",
         "Cómo funciona, fusión multiescala de observación de la Tierra y limitaciones",
         miga="Información",
         icono_miga="satelite",
@@ -30,18 +30,18 @@ def mostrar():
 
     theme.subtitulo_icono("satelite", "Fuentes de observación de la Tierra integradas")
     fuentes_df = pd.DataFrame([
-        {"Fuente": "NASA POWER (MERRA-2)", "Estado": "Integrado (API + respaldo Chimborazo)", "Uso en AgroCycle AI": "Lluvia, temperatura media/mín./máx., radiación solar y humedad radicular, corregidas por altitud."},
-        {"Fuente": "NASA SRTM (30 m)", "Estado": "Integrado (OpenTopoData)", "Uso en AgroCycle AI": "Altitud, pendiente (%) y nivel de riesgo de erosión en ladera (factor LS)."},
-        {"Fuente": "MODIS / Landsat / Sentinel-2 NDVI", "Estado": "Integrado (climatología + capa GIBS)", "Uso en AgroCycle AI": "Curva estacional NDVI (0,15–0,85), detección de meses críticos de suelo desnudo y alerta de erosión."},
-        {"Fuente": "NASA GPM IMERG (~10 km)", "Estado": "Integrado (climatología calibrada)", "Uso en AgroCycle AI": "Frecuencia de lluvias intensas e intensidad máxima para estimar riesgo de lavado de suelo."},
-        {"Fuente": "NASA SMAP L3/L4 (9–36 km)", "Estado": "Integrado (climatología + simulador)", "Uso en AgroCycle AI": "Humedad superficial del suelo y anomalía hídrica conectadas al simulador de escenarios."},
-        {"Fuente": "SoilGrids (ISRIC, 250 m)", "Estado": "Integrado (API complementaria)", "Uso en AgroCycle AI": "Estimación de pH, materia orgánica y textura USDA cuando no hay análisis de laboratorio."},
+        {"Fuente": "NASA POWER (MERRA-2)", "Estado": "Integrado (API + respaldo Chimborazo)", "Uso en AgroCycle": "Lluvia, temperatura media/mín./máx., radiación solar y humedad radicular, corregidas por altitud."},
+        {"Fuente": "NASA SRTM (30 m)", "Estado": "Integrado (OpenTopoData)", "Uso en AgroCycle": "Altitud, pendiente (%) y nivel de riesgo de erosión en ladera (factor LS)."},
+        {"Fuente": "MODIS / Landsat / Sentinel-2 NDVI", "Estado": "Integrado (climatología + capa GIBS)", "Uso en AgroCycle": "Curva estacional NDVI (0,15–0,85), detección de meses críticos de suelo desnudo y alerta de erosión."},
+        {"Fuente": "NASA GPM IMERG (~10 km)", "Estado": "Integrado (climatología calibrada)", "Uso en AgroCycle": "Frecuencia de lluvias intensas e intensidad máxima para estimar riesgo de lavado de suelo."},
+        {"Fuente": "NASA SMAP L3/L4 (9–36 km)", "Estado": "Integrado (climatología + simulador)", "Uso en AgroCycle": "Humedad superficial del suelo y anomalía hídrica conectadas al simulador de escenarios."},
+        {"Fuente": "SoilGrids (ISRIC, 250 m)", "Estado": "Integrado (API complementaria)", "Uso en AgroCycle": "Estimación de pH, materia orgánica y textura USDA cuando no hay análisis de laboratorio."},
     ])
     st.dataframe(fuentes_df, hide_index=True, width="stretch")
 
     theme.subtitulo_icono("capas", "Fusión de Datos Satelitales y Escalas")
     st.markdown(
-        "<div class='tarjeta'>Cada sensor observa la Tierra a una escala espacial distinta. AgroCycle AI armoniza estas resoluciones "
+        "<div class='tarjeta'>Cada sensor observa la Tierra a una escala espacial distinta. AgroCycle armoniza estas resoluciones "
         "al polígono de la parcela combinando muestreo topográfico fino (30 m), corrección térmica por gradiente andino "
         "(-0,58 °C/100 m), calibración cantonal de lluvia y validación obligatoria en campo.</div>",
         unsafe_allow_html=True,

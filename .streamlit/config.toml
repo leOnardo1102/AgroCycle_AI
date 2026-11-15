@@ -1,4 +1,4 @@
-# Sistema de diseño AgroCycle AI (ver ui/theme.py para el CSS complementario)
+# Sistema de diseño AgroCycle (ver ui/theme.py para el CSS complementario)
 [theme]
 base = "light"
 primaryColor = "#16A34A"

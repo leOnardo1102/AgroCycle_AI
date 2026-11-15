@@ -38,7 +38,7 @@ def kpis(items: list[tuple]):
 
 
 def portada():
-    theme.encabezado("AgroCycle AI", "¿Qué sembrar después de tu cosecha?", miga="Inicio", icono_miga="brote")
+    theme.encabezado("AgroCycle", "¿Qué sembrar después de tu cosecha?", miga="Inicio", icono_miga="brote")
     st.write("Te ayudamos a planificar la **rotación de cultivos** de tu terreno con información del clima y del relieve "
              "de la **NASA**, las características de tu suelo, lo que sembraste antes y lo que más te importa.")
     c1, c2, c3 = st.columns(3)

@@ -123,7 +123,7 @@ h3{{margin:0 0 2px;font-size:16px}}p{{margin:2px 0}}.cab{{display:flex;justify-c
 <div class="cab"><div><h1>🌱 Mi plan de siembra{' – 12 meses' if g.get('anual') else ''}</h1><p><b>{e(agricultor.nombre)}</b>{' · ' + e(agricultor.comunidad) if agricultor.comunidad else ''}
  · {e(parcela.nombre)} ({_ha(parcela.superficie)} ha) {('· ' + e(g['periodo'])) if g.get('periodo') else ''}</p>
  {f'<p class="tec">Técnico responsable: <b>{e(t["firma"])}</b>' + (f' · {e(t["contacto"])}' if t["contacto"] else '') + '</p>' if t["nombre"] else ''}</div>
- <div style="text-align:right">Fecha: {date.today():%d/%m/%Y}<br>AgroCycle AI</div></div>
+ <div style="text-align:right">Fecha: {date.today():%d/%m/%Y}<br>AgroCycle</div></div>
 <div class="luces">{luces}</div>
 {vs_html}
 <h2>1. {e(g.get('titulo_pasos', 'Qué sembrar, en orden'))}</h2>{pasos}
@@ -298,5 +298,5 @@ def pdf_cartilla(g: dict, agricultor, parcela, tecnico=None) -> bytes:
     pdf.set_xy(14, 289)
     pdf.set_font("Helvetica", "I", 7.5)
     pdf.set_text_color(110, 110, 110)
-    pdf.cell(W, 4, "Plan orientativo hecho con datos del clima de la NASA y de tu terreno (AgroCycle AI). No garantiza cosechas ni precios.", align="C")
+    pdf.cell(W, 4, "Plan orientativo hecho con datos del clima de la NASA y de tu terreno (AgroCycle). No garantiza cosechas ni precios.", align="C")
     return bytes(pdf.output())

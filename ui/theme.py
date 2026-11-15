@@ -1,4 +1,4 @@
-"""Sistema de diseño de AgroCycle AI: CSS global, iconos SVG (Lucide, licencia ISC) y componentes reutilizables.
+"""Sistema de diseño de AgroCycle: CSS global, iconos SVG (Lucide, licencia ISC) y componentes reutilizables.
 
 Los colores base, fuentes y bordes de los widgets nativos se definen en .streamlit/config.toml;
 aquí va lo que el tema nativo no cubre (tarjetas, KPI, insignias, pasos, avatares, mapas y fusión).
@@ -298,7 +298,7 @@ def aplicar():
 
 # ------------------------------------------------------------------ componentes
 def marca():
-    st.markdown(f"<div class='marca'><div class='logo'>{icono('brote', 22, '#fff', 2.2)}</div><div><b>AgroCycle AI</b>"
+    st.markdown(f"<div class='marca'><div class='logo'>{icono('brote', 22, '#fff', 2.2)}</div><div><b>AgroCycle</b>"
                 "<small>Rotación de cultivos · Chimborazo</small></div></div>", unsafe_allow_html=True)
 
 

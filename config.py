@@ -1,4 +1,4 @@
-"""Constantes generales de AgroCycle AI."""
+"""Constantes generales de AgroCycle."""
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent

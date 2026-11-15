@@ -1,1 +1,1 @@
-"""Sistema de diseño de AgroCycle AI."""
+"""Sistema de diseño de AgroCycle."""

@@ -848,7 +848,7 @@ def tab_tecnico(p):
     theme.subtitulo_icono("capas", "Fusión de Datos Satelitales y Escalas")
     st.markdown(
         "<div class='tarjeta'><b>Armonización multiescala al polígono de la parcela:</b> las resoluciones satelitales varían entre "
-        "30 m (relieve SRTM) y ~50 km (climatología NASA POWER). AgroCycle AI integra cada fuente reduciendo la escala térmica por "
+        "30 m (relieve SRTM) y ~50 km (climatología NASA POWER). AgroCycle integra cada fuente reduciendo la escala térmica por "
         "gradiente andino (-0,58 °C/100 m), calibrando lluvia con estaciones cantonales y evaluando la incertidumbre espacial.</div>",
         unsafe_allow_html=True,
     )

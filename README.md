@@ -1,4 +1,15 @@
-# 🌱 AgroCycle AI
+# 🌱 AgroCycle
+
+## Idioma / Language
+
+La app está en **español** y en **inglés**. El selector **Español | English** está arriba en la barra lateral.
+Para abrirla directamente en inglés (por ejemplo, para los jueces de NASA) usa la dirección con `?lang=en`,
+por ejemplo `https://<tu-app>.streamlit.app/?lang=en`.
+
+- La traducción vive en `ui/i18n.py` (mecanismo) y `ui/traducciones_en.py` (diccionario).
+- Para encontrar textos sin traducir: `AGROCYCLE_I18N_LOG=1 streamlit run app.py` y revisa `logs/i18n_faltantes.txt`.
+- El PDF y el mensaje de WhatsApp para el agricultor se mantienen en español.
+
 
 Herramienta de apoyo a la toma de decisiones para la **rotación de cultivos** de pequeños productores de **Chimborazo, Ecuador**. Integra datos de observación de la Tierra de la **NASA** con el historial de la parcela, las características del terreno y las prioridades del agricultor.
 
