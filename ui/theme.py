@@ -91,6 +91,12 @@ section[data-testid="stSidebar"]{
   min-width:310px!important;
   max-width:330px!important;
 }
+.block-container,
+[data-testid="stMainBlockContainer"] {
+  max-width: 100% !important;
+  padding-left: 2.5rem !important;
+  padding-right: 2.5rem !important;
+}
 section[data-testid="stSidebar"] hr{border-color:rgba(255,255,255,.08);margin:.55rem 0}
 section[data-testid="stSidebar"] [data-testid="stCaptionContainer"]{color:#9DB5A8!important}
 section[data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"] > div {
